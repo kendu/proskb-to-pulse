@@ -15,51 +15,29 @@
 </xsl:template>
 
 <xsl:template match="/camt:Document/camt:BkToCstmrStmt/camt:Stmt">
-<xsl:text>"Date","Title","Account","Company","Description","Category","Memo","Payment","Deposit"&#xD;&#xA;</xsl:text>
+<xsl:text>"Date","Title","Company","Payment","Deposit"&#xD;&#xA;</xsl:text>
 <xsl:for-each select="camt:Ntry">
-	<xsl:text>"</xsl:text>
+	<xsl:text>"</xsl:text><xsl:value-of select="camt:ValDt/camt:Dt"/><xsl:text>",</xsl:text>
 
-	<!-- date -->
-	<xsl:value-of select="camt:ValDt/camt:Dt"/>
-	<xsl:text>","</xsl:text>
-
-	<!-- title -->
-	<xsl:if test="camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Ustrd != ''">
-		<xsl:value-of select="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Ustrd)"/>
+	<xsl:if test="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:CdtrRefInf/camt:Ref) != ''">
+		<xsl:text>"</xsl:text><xsl:value-of select="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:CdtrRefInf/camt:Ref)"/><xsl:text>",</xsl:text>
 	</xsl:if>
-	<xsl:if test="camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:AddtlRmtInf != ''">
-	<xsl:value-of select="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:AddtlRmtInf)"/>
+	<xsl:if test="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:CdtrRefInf/camt:Ref) = ''">
+		<xsl:text>"</xsl:text><xsl:value-of select="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Ustrd)"/><xsl:text>",</xsl:text>
 	</xsl:if>
-	<xsl:text>","</xsl:text>
 
-	<!-- account -->
-	<xsl:value-of select="/camt:Document/camt:BkToCstmrStmt/camt:Stmt/camt:Acct/camt:Id/camt:IBAN"/>
-	<xsl:text>","</xsl:text>
+	<xsl:if test="camt:CdtDbtInd = 'DBIT'">
+		<xsl:text>"</xsl:text><xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:Cdtr/camt:Nm"/><xsl:text>",</xsl:text>
+		<xsl:text>"</xsl:text><xsl:value-of select="camt:Amt"/><xsl:text>",</xsl:text>
+		<xsl:text>""</xsl:text>
+	</xsl:if>
+	<xsl:if test="camt:CdtDbtInd = 'CRDT'">
+		<xsl:text>"</xsl:text><xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:Dbtr/camt:Nm"/><xsl:text>",</xsl:text>
+		<xsl:text>"",</xsl:text>
+		<xsl:text>"</xsl:text><xsl:value-of select="camt:Amt"/><xsl:text>"</xsl:text>
+	</xsl:if>
 
-	<!-- company -->
-	<xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:Cdtr/camt:Nm"/>
-	<xsl:text>","</xsl:text>
-
-	<!-- description -->
-	<!-- *missing* -->
-
-	<xsl:text>","</xsl:text>
-
-	<!-- category -->
-	<!-- *missing* -->
-
-	<xsl:text>","</xsl:text>
-
-	<!-- memo -->
-	<!-- *missing* -->
-
-	<xsl:text>","</xsl:text>
-
-	<!-- payment & deposit -->
-	<xsl:if test="camt:CdtDbtInd = 'DBIT'"><xsl:value-of select="camt:Amt"/></xsl:if>
-	<xsl:text>","</xsl:text>
-	<xsl:if test="camt:CdtDbtInd = 'CRDT'"><xsl:value-of select="camt:Amt"/></xsl:if>
-	<xsl:text>"&#xD;&#xA;</xsl:text>
+	<xsl:text>&#xD;&#xA;</xsl:text>
 </xsl:for-each>
 </xsl:template>
 
