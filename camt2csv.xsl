@@ -33,7 +33,7 @@
 	<xsl:text>","</xsl:text>
 
 	<!-- account -->
-	<xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:DbtrAcct/camt:Id/camt:IBAN"/>
+	<xsl:value-of select="/camt:Document/camt:BkToCstmrStmt/camt:Stmt/camt:Acct/camt:Id/camt:IBAN"/>
 	<xsl:text>","</xsl:text>
 
 	<!-- company -->
