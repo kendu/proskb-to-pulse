@@ -25,10 +25,10 @@
 
 	<!-- title -->
 	<xsl:if test="camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Ustrd != ''">
-		<xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Ustrd"/>
+		<xsl:value-of select="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Ustrd)"/>
 	</xsl:if>
 	<xsl:if test="camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:AddtlRmtInf != ''">
-	<xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:AddtlRmtInf"/>
+	<xsl:value-of select="normalize-space(camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Strd/camt:AddtlRmtInf)"/>
 	</xsl:if>
 	<xsl:text>","</xsl:text>
 
